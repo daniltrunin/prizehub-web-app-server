@@ -11,7 +11,7 @@ require("dotenv").config();
 app.use(
     cors({
         origin: "http://localhost:5173", // Разрешить запросы только с этого домена
-        methods: ["GET", "POST"], // Разрешенные HTTP-методы
+        methods: ["GET", "POST", "PUT", "DELETE"], // Разрешенные HTTP-методы
         allowedHeaders: ["Content-Type", "Authorization"], // Разрешенные заголовки
     })
 );
