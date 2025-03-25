@@ -1,4 +1,14 @@
-export function requestTime(req, res, next) {
+function generateToken() {
+    const symbols = '1234567890qwertyuiopasdfghjklzxcvbnm!@#$%^&*()-=+';
+    const arr = symbols.split('');
+
+    const shuffle = arr => {
+        return arr.sort(() => Math.round(Math.random() * 100) - 50);
+    };
+
+    const res = shuffle(arr).join('');
+
+    return res;
 }
-export function logger(req, res, next) {
-}
+
+module.exports = generateToken;
