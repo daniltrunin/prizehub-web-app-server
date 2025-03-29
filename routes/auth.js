@@ -31,13 +31,17 @@ router.post("/register", async (req, res) => {
 // Логин пользователя
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
+    const token = generateToken();
 
     try {
-        const user = await User.findOne({ username });
+        let user = await User.findOne({ username });
         if (!user || user.password !== password) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
-        res.status(200).json({ message: "Login successful" });
+
+        user.token = token;
+        await user.save()
+        res.status(200).json({ message: "Login successful", token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error logging in" });
