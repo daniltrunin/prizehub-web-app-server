@@ -3,13 +3,17 @@ const router = express.Router();
 const User = require("../models/User.js");
 
 // Поиск пользователя по username
-router.get("/:username", async (req, res) => {
+router.post("/:username", async (req, res) => {
     try {
-        const { username } = req.params;
+        const { username, token } = req.body;
         const user = await User.findOne({ username });
 
         if (!user) {
             return res.status(404).json({ error: "Пользователь не найден" });
+        }
+
+        if (!token || token != user.token) {
+            return res.status(401).json({ error: "Клиент не аутентифицирован и требует корректных данных для доступа" })
         }
 
         res.json(user);
