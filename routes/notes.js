@@ -30,11 +30,15 @@ router.post("/get", async (req, res) => {
 // Добавить заметку
 router.put("/add", async (req, res) => {
     try {
-        const { username, note } = req.body;
+        const { username, note, token } = req.body;
         const user = await User.findOne({ username });
 
         if (!user) {
             return res.status(404).json({ error: "Пользователь не найден" });
+        }
+
+        if (!token || token != user.token) {
+            return res.status(401).json({ error: "Клиент не аутентифицирован и требует корректных данных для доступа" });
         }
 
         user.notes.push(note);
