@@ -43,8 +43,34 @@ router.post("/login", async (req, res) => {
         await user.save()
         res.status(200).json({ message: "Login successful", token });
     } catch (error) {
-        console.error(error);
+        console.error("Ошибка при логине: ", error);
         res.status(500).json({ error: "Error logging in" });
+    }
+});
+
+// Лог аут пользователя
+router.post("/logout", async (req, res) => {
+    const { username, token } = req.body;
+    const newToken = generateToken()
+
+    try {
+        let user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+
+        if (!token || token != user.token) {
+            return res.status(401).json({ error: "Клиент не аутентифицирован и требует корректных данных для доступа" })
+        }
+
+        user.token = newToken;
+        await user.save();
+
+        res.status(200).json({ message: "Logout successful" });
+    } catch (error) {
+        console.error("Ошибка при логауте: ", error);
+        res.status(500).json({ error: "Error logging out" });
     }
 });
 
