@@ -1,11 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const PORT = process.env.PORT ?? 5000;
+const PORT = process.env.PORT ?? 5001;
 const app = express();
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 const notesRoutes = require("./routes/notes");
+const botRoutes = require("./routes/bot");
 require("dotenv").config();
 
 app.use(
@@ -36,4 +37,7 @@ app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 
 // Роуты для notes
-app.use("/notes", notesRoutes); 
+app.use("/notes", notesRoutes);
+
+// Роуты для бота
+app.use("/bot", botRoutes); 
