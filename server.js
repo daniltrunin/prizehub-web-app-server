@@ -11,7 +11,7 @@ require("dotenv").config();
 
 app.use(
     cors({
-        origin: "http://localhost:5173", // Разрешить запросы только с этого домена
+        origin: "*", // Разрешить запросы только с этого домена
         methods: ["GET", "POST", "PUT", "DELETE"], // Разрешенные HTTP-методы
         allowedHeaders: ["Content-Type", "Authorization"], // Разрешенные заголовки
     })
@@ -27,7 +27,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.listen(PORT, () => {
-    console.log("server is running...")
+    console.log(`server is running on port ${PORT}...`)
 })
 
 // Роуты для авторизации
